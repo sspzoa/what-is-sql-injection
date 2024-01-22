@@ -14,9 +14,9 @@ app.get('/', (req, res) => {
 app.post('/login', (req, res) => {
     const clientQuery = req.body.query;
 
-    if (clientQuery === "SELECT * FROM users WHERE username = 'admin'" || clientQuery === "SELECT * FROM users WHERE username = 'admin' AND password = 'N0w_y0u_kn0w_SQL_Injection';") {
+    if (clientQuery === "SELECT * FROM users WHERE username = 'admin'" || clientQuery === "SELECT * FROM users WHERE username = 'admin';" || clientQuery === "SELECT * FROM users WHERE username = 'admin' AND password = 'N0w_y0u_kn0w_SQL_Injection';") {
         res.send("성공!\n" + "DIMI{N0w_y0u_kn0w_SQL_Injection}");
-    } else if (clientQuery === "SELECT * FROM users WHERE username = 'guest'" || clientQuery === "SELECT * FROM users WHERE username = 'guest' AND password = 'guest';") {
+    } else if (clientQuery === "SELECT * FROM users WHERE username = 'guest'" || "SELECT * FROM users WHERE username = 'guest';" || clientQuery === "SELECT * FROM users WHERE username = 'guest' AND password = 'guest';") {
         res.send("GUEST 로그인 성공!");
     }
     else {
