@@ -9,8 +9,6 @@
         .sql-comment { color: green; }
     </style>
     <script>
-        let currentSqlQuery = "";
-
         function updateQuery() {
             const id = document.getElementById('idInput').value;
             const pw = document.getElementById('pwInput').value;
@@ -26,27 +24,31 @@
             const normalQuery = query.substring(0, endIndex);
             const commentQuery = endIndex < query.length ? query.substring(endIndex) : '';
 
-            currentSqlQuery = normalQuery;
-
             document.getElementById('sqlQuery').innerHTML = normalQuery + '<span class="sql-comment">' + commentQuery + '</span>';
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector('.loginForm').addEventListener('submit', function(e) {
-                e.preventDefault();
+        function sendLoginRequest() {
+            const id = document.getElementById('idInput').value;
+            const pw = document.getElementById('pwInput').value;
 
-                fetch('/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'query=' + encodeURIComponent(currentSqlQuery)
+            const encodedData = 'id=' + encodeURIComponent(id) + '&pw=' + encodeURIComponent(pw);
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: encodedData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
                 })
-                    .then(response => response.text())
-                    .then(data => alert(data))
-                    .catch(error => console.error('Error:', error));
-            });
-        });
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
     </script>
 </head>
 <body>
@@ -71,7 +73,7 @@
                 <td>???</td>
             </tr>
         </table>
-        <form class="loginForm">
+        <form class="loginForm" onsubmit="sendLoginRequest(); return false;">
             <input type="text" id="idInput" name="id" placeholder="아이디" oninput="updateQuery()" />
             <input type="password" id="pwInput" name="pw" placeholder="비밀번호" oninput="updateQuery()" />
             <button type="submit">로그인</button>
