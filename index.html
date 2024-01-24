@@ -16,10 +16,8 @@
             const query = "SELECT * FROM users WHERE username = '" + id + "' AND password = '" + pw + "';";
 
             const commentIndex = query.indexOf('--');
-            const hashIndex = query.indexOf('#');
             const endIndex = Math.min(
                 commentIndex >= 0 ? commentIndex : query.length,
-                hashIndex >= 0 ? hashIndex : query.length
             );
 
             const normalQuery = query.substring(0, endIndex);

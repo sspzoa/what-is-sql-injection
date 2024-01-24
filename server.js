@@ -51,8 +51,8 @@ app.post('/login', (req, res) => {
     const id = req.body.id;
     const pw = req.body.pw;
 
-    const query = "SELECT * FROM users WHERE id = ? AND pw = ?";
-    db.get(query, [id, pw], (err, row) => {
+    const query = `SELECT * FROM users WHERE id = '${id}' AND pw = '${pw}';`
+    db.get(query, (err, row) => {
         if (err) {
             res.send("오류 발생: " + err.message);
             return;
